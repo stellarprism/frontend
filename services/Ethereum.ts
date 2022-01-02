@@ -39,14 +39,32 @@ export class EthereumService {
   }
 
   private async loadContract(name: string) {
+    this.ensureProvider()
+
     const chainId = parseInt(
       await this.provider.request({ method: 'eth_chainId' })
     )
 
     const json = require(`@/contracts/${name}.json`)
-    const address = json.networks[chainId].address
+    const network = json.networks[chainId]
+
+    if (!network) {
+      throw new Error(`address not found on network: ${network}`)
+    }
+
+    const address = network.address
 
     const signer = this.wrapper!.getSigner()
     return new Contract(address, json.abi, signer)
+  }
+
+  private ensureProvider() {
+    if (!this.provider) {
+      throw new Error('no provider available')
+    }
+  }
+
+  get connected() {
+    return !!this.provider
   }
 }

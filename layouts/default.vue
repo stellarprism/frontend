@@ -36,6 +36,7 @@
 
 <script>
 export default {
+  middleware: ['ethereum'],
   data: () => ({
     drawer: true,
     pages: [

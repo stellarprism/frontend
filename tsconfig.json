@@ -23,7 +23,8 @@
       "@types/node",
       "vuetify-dialog/types",
       "~/types/vue",
-      "~/types/ethereum"
+      "~/types/ethereum",
+      "~/types/services"
     ]
   },
   "exclude": ["node_modules", ".nuxt", "dist"]
