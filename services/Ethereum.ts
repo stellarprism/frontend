@@ -65,6 +65,6 @@ export class EthereumService {
   }
 
   get connected() {
-    return !!this.provider
+    return this.provider && this.$token && this.$marketplace
   }
 }
