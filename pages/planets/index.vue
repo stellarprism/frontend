@@ -72,8 +72,6 @@ export default Vue.extend({
     },
   },
   async fetch() {
-    await this.$ethereum.getAddress()
-
     this.items = Array.from(
       { length: (await this.$ethereum.$token.totalSupply()).toNumber() },
       (_, index) => index
