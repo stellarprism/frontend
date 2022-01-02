@@ -9,7 +9,7 @@
         You then need to select the Ropsten test network.
       </v-card-subtitle>
       <v-list three-line>
-        <v-list-item v-for="(step, index) in steps">
+        <v-list-item v-for="(step, index) in steps" :key="index">
           <v-list-item-avatar>
             <v-icon x-large> mdi-numeric-{{ index + 1 }} </v-icon>
           </v-list-item-avatar>
