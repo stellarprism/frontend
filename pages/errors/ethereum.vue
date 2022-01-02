@@ -36,7 +36,7 @@
               You are all set! Click on the button below.
             </v-list-item-title>
             <v-list-item-subtitle>
-              <v-btn block large color="primary" @click="refresh">
+              <v-btn block large color="primary" @click="toMainPage">
                 go the main page
               </v-btn>
             </v-list-item-subtitle>
@@ -84,9 +84,32 @@ export default Vue.extend({
     ] as Array<Step>,
   }),
   methods: {
-    refresh() {
+    toMainPage() {
       window.location.href = '/'
     },
+  },
+  mounted() {
+    if (this.$ethereum.connected) {
+      this.$dialog.confirm({
+        title: 'Already connected!',
+        text: 'You are already connected to a valid network, do you want to be redirected to the main page?',
+        actions: [
+          {
+            key: false,
+            text: 'continue reading it anyway',
+            handler() {},
+          },
+          {
+            key: true,
+            text: 'yes',
+            color: 'primary',
+            handler: () => {
+              this.toMainPage()
+            },
+          },
+        ],
+      })
+    }
   },
 })
 </script>
