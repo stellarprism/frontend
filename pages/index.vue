@@ -305,16 +305,10 @@ export default Vue.extend({
 
   #sun {
     z-index: 5;
-    border: 0px solid red !important;
     background-color: #fb7209;
     background-repeat: no-repeat;
     background-size: cover;
     box-shadow: 0 0 60px rgba(255, 160, 60, 0.4);
-  }
-
-  #sun :hover {
-    border: 10px solid red !important;
-    left: 150%;
   }
 
   .planet {
