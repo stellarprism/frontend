@@ -3,11 +3,11 @@
     <v-container>
       <v-card-title> To fully enjoy the experience, you need to: </v-card-title>
       <v-card-subtitle>
-        Install MetaMask for your browser of choice. <br />
+        Install <a href="https://metamask.io/" target="_blank">MetaMask</a> for
+        your browser of choice. <br />
         Metamask is a plugin to interact with the blockchain. <br />
         You then need to select the Ropsten test network.
       </v-card-subtitle>
-
       <v-list three-line>
         <v-list-item v-for="(step, index) in steps">
           <v-list-item-avatar>
