@@ -11,7 +11,7 @@
       <v-list three-line>
         <v-list-item v-for="(step, index) in steps">
           <v-list-item-avatar>
-            <v-icon> mdi-numeric-{{ index + 1 }} </v-icon>
+            <v-icon x-large> mdi-numeric-{{ index + 1 }} </v-icon>
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title>
@@ -28,7 +28,19 @@
           </v-list-item-content>
         </v-list-item>
         <v-list-item>
-          <v-btn block large color="primary" @click="refresh"> refresh </v-btn>
+          <v-list-item-avatar>
+            <v-icon x-large> mdi-numeric-{{ steps.length + 1 }} </v-icon>
+          </v-list-item-avatar>
+          <v-list-item-content>
+            <v-list-item-title>
+              You are all set! Click on the button below.
+            </v-list-item-title>
+            <v-list-item-subtitle>
+              <v-btn block large color="primary" @click="refresh">
+                go the main page
+              </v-btn>
+            </v-list-item-subtitle>
+          </v-list-item-content>
         </v-list-item>
       </v-list>
     </v-container>
