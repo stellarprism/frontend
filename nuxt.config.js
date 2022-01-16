@@ -63,6 +63,11 @@ export default {
     },
   },
 
+  env: {
+    INFURA_NETWORK_ID: process.env.INFURA_NETWORK_ID || '1',
+    INFURA_PROJECT_ID: process.env.INFURA_PROJECT_ID,
+  },
+
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     standalone: true,

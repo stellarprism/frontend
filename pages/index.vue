@@ -184,7 +184,7 @@ export default Vue.extend({
     },
   },
   async fetch() {
-    const address = (await this.$ethereum.getAddress()).toLowerCase()
+    const address = (await this.$ethereum.getAddress())?.toLowerCase()
 
     const totalSupply = await this.$ethereum.$token.totalSupply()
 

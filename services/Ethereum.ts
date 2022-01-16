@@ -1,19 +1,28 @@
 import { Contract, ethers } from 'ethers'
-import { ExternalProvider } from '~/types/ethereum'
 
 export class EthereumService {
-  provider: ExternalProvider
-  wrapper!: ethers.providers.Web3Provider
+  public provider: ethers.providers.JsonRpcProvider
+  public signer: ethers.providers.JsonRpcSigner | null
+  public readOnly: boolean
 
-  $token!: Contract
-  $marketplace!: Contract
+  public $token!: Contract
+  public $marketplace!: Contract
 
   constructor() {
-    if ((this.provider = window.ethereum)) {
-      this.wrapper = new ethers.providers.Web3Provider(this.provider)
-
-      this.wrapper.on('chainChanged', () => window.location.reload())
+    if (window.ethereum) {
+      this.provider = new ethers.providers.Web3Provider(window.ethereum)
+      this.signer = this.provider.getSigner()
+      this.readOnly = false
+    } else {
+      this.provider = new ethers.providers.InfuraProvider(
+        parseInt(process.env.INFURA_NETWORK_ID as string),
+        process.env.INFURA_PROJECT_ID
+      )
+      this.signer = null
+      this.readOnly = true
     }
+
+    this.provider.on('chainChanged', () => window.location.reload())
   }
 
   async initialize() {
@@ -26,24 +35,24 @@ export class EthereumService {
   }
 
   isUsable() {
-    return this.wrapper != null
+    return this.provider != null
   }
 
   async getAddress() {
-    let accounts = await this.provider!.request({ method: 'eth_accounts' })
+    if (this.readOnly) {
+      return undefined
+    }
+
+    let accounts = await this.provider.send('eth_accounts', [])
     if (!accounts.length) {
-      accounts = await this.provider!.request({ method: 'eth_requestAccounts' })
+      accounts = await this.provider.send('eth_requestAccounts', [])
     }
 
     return accounts[0]
   }
 
   private async loadContract(name: string) {
-    this.ensureProvider()
-
-    const chainId = parseInt(
-      await this.provider.request({ method: 'eth_chainId' })
-    )
+    const chainId = parseInt(await this.provider.send('eth_chainId', []))
 
     const json = require(`@/contracts/${name}.json`)
     const network = json.networks[chainId]
@@ -54,13 +63,10 @@ export class EthereumService {
 
     const address = network.address
 
-    const signer = this.wrapper!.getSigner()
-    return new Contract(address, json.abi, signer)
-  }
-
-  private ensureProvider() {
-    if (!this.provider) {
-      throw new Error('no provider available')
+    if (this.signer) {
+      return new Contract(address, json.abi, this.signer)
+    } else {
+      return new Contract(address, json.abi, this.provider)
     }
   }
 

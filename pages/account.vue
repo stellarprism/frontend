@@ -33,6 +33,10 @@ export default Vue.extend({
   async fetch() {
     this.address = await this.$ethereum.getAddress()
 
+    if (!this.address) {
+      return
+    }
+
     const balance = await this.$ethereum.$token.balanceOf(this.address)
 
     const ids = []

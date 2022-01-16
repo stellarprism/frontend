@@ -82,7 +82,7 @@ export default Vue.extend({
         ).price.toString()
       : null
 
-    const isMine = owner.toUpperCase() == myAddress.toUpperCase()
+    const isMine = owner.toUpperCase() == myAddress?.toUpperCase()
 
     this.isOnMarketplace = isOnMarketplace
     this.owner = owner
