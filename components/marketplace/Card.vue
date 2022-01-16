@@ -1,7 +1,7 @@
 <template>
   <v-card outlined>
     <v-card-title>
-      #{{ token.id }}
+      {{ title }}
       <v-spacer />
       <marketplace-price :value="token.price" />
     </v-card-title>
@@ -12,7 +12,7 @@
       </a>
     </v-card-subtitle>
     <v-divider />
-    <planet-render :token-id="token.id" />
+    <planet-render :token-id="token.id" @metadata="metadata = $event" />
     <v-divider />
     <v-card-actions>
       <marketplace-button-show :id="token.id" />
@@ -25,17 +25,29 @@ import Vue from 'vue'
 export default Vue.extend({
   props: {
     token: {
-      type: Object,
+      type: Object as Vue.PropType<any>,
       required: true,
     },
   },
+  data: () => ({
+    metadata: null as any | null,
+  }),
   computed: {
-    toShow() {
+    title(): string {
+      const id = `#${this.token.id}`
+
+      if (this.metadata?.name) {
+        return `${this.metadata.name} (${id})`
+      }
+
+      return id
+    },
+    toShow(): string {
       const { id } = this.token
 
       return `/planets/${id}`
     },
-    toEtherscan() {
+    toEtherscan(): string {
       return `https://etherscan.io/address/${(this.token as any).seller}`
     },
   },
