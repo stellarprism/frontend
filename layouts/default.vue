@@ -1,9 +1,15 @@
 <template>
   <v-app dark>
-    <v-system-bar v-if="!canSign" app color="error" class="justify-center" height="48">
+    <v-system-bar
+      v-if="!canSign"
+      app
+      color="error"
+      class="justify-center"
+      height="48"
+    >
       <div>
-      You are not connected with MetaMask. <br />
-      You will not be able to buy/sell planets.
+        You are not connected with MetaMask. <br />
+        You will not be able to buy/sell planets.
       </div>
       <v-btn color="primary" small class="ml-4" to="/errors/ethereum">
         Help me install it!
@@ -18,9 +24,9 @@
       />
       <v-divider />
       <v-list>
-        <v-list-item v-for="page in pages" :key="page.to" :to="page.to" router>
+        <v-list-item v-for="page in pages" :key="page.to" :to="page.to" router :disabled="!!page.disabled">
           <v-list-item-action>
-            <v-icon>{{ page.icon }}</v-icon>
+            <v-icon :disabled="!!page.disabled">{{ page.icon }}</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title v-text="page.title" />
@@ -50,36 +56,39 @@ export default {
     canSign() {
       return !!this.$ethereum.signer
     },
+    pages() {
+      return [
+        {
+          icon: 'mdi-star-shooting',
+          title: 'Universe',
+          to: '/',
+        },
+        {
+          icon: 'mdi-earth',
+          title: 'Planets',
+          to: '/planets',
+        },
+        {
+          icon: 'mdi-shopping',
+          title: 'Star Exchange',
+          to: '/marketplace',
+        },
+        {
+          icon: 'mdi-account',
+          title: 'Account',
+          to: '/account',
+          disabled: !this.$ethereum.signer
+        },
+        {
+          icon: 'mdi-information',
+          title: 'About',
+          to: '/about',
+        },
+      ]
+    },
   },
   data: () => ({
     drawer: true,
-    pages: [
-      {
-        icon: 'mdi-star-shooting',
-        title: 'Universe',
-        to: '/',
-      },
-      {
-        icon: 'mdi-earth',
-        title: 'Planets',
-        to: '/planets',
-      },
-      {
-        icon: 'mdi-shopping',
-        title: 'Star Exchange',
-        to: '/marketplace',
-      },
-      {
-        icon: 'mdi-account',
-        title: 'Account',
-        to: '/account',
-      },
-      {
-        icon: 'mdi-information',
-        title: 'About',
-        to: '/about',
-      },
-    ],
   }),
 }
 </script>
