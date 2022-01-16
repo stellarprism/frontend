@@ -2,7 +2,12 @@
   <v-card>
     <template v-if="name">
       <v-card-title>{{ name }}</v-card-title>
-      <v-card-subtitle>#{{ id }}</v-card-subtitle>
+      <v-card-subtitle v-if="owner">
+        Owner:
+        <a :href="toEtherscan" target="_blank" class="text-decoration-none">
+          {{ owner }}
+        </a>
+      </v-card-subtitle>
     </template>
     <v-card-title v-else>#{{ id }}</v-card-title>
     <v-divider />
@@ -27,13 +32,20 @@ export default Vue.extend({
   },
   data: () => ({
     metadata: null as any | null,
+    owner: null as string | null,
   }),
+  async fetch() {
+    this.owner = await this.$ethereum.$token.ownerOf(this.id)
+  },
   computed: {
     name(): string | null {
       return this.metadata?.name
     },
     description(): string | null {
       return this.metadata?.description
+    },
+    toEtherscan(): string {
+      return `https://etherscan.io/address/${this.owner}`
     },
   },
 })
