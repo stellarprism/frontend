@@ -17,6 +17,7 @@
           <v-card-text>
             <planet-render :token-id="id" @metadata="metadata = $event" />
           </v-card-text>
+          <v-card-subtitle v-if="owner" class="text-center">owner by {{ owner }}</v-card-subtitle>
           <v-card-actions>
             <marketplace-button-interact
               :id="id"
