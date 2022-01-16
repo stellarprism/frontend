@@ -89,7 +89,7 @@ export default Vue.extend({
     },
   },
   mounted() {
-    if (this.$ethereum.connected) {
+    if (this.$ethereum.signer) {
       this.$dialog.confirm({
         title: 'Already connected!',
         text: 'You are already connected to a valid network, do you want to be redirected to the main page?',
