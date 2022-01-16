@@ -1,5 +1,14 @@
 <template>
   <v-app dark>
+    <v-system-bar v-if="!canSign" app color="error" class="justify-center" height="48">
+      <div>
+      You are not connected with MetaMask. <br />
+      You will not be able to buy/sell planets.
+      </div>
+      <v-btn color="primary" small class="ml-4" to="/errors/ethereum">
+        Help me install it!
+      </v-btn>
+    </v-system-bar>
     <v-navigation-drawer v-model="drawer" fixed app clipped>
       <v-img
         :src="require('~/assets/logo.png')"
@@ -37,6 +46,11 @@
 <script>
 export default {
   middleware: ['ethereum'],
+  computed: {
+    canSign() {
+      return !!this.$ethereum.signer
+    },
+  },
   data: () => ({
     drawer: true,
     pages: [
