@@ -2,6 +2,14 @@
 
 ## Build Setup
 
+### With docker-compose
+
+```bash
+docker-compose -p PREFIX up -d
+```
+
+### With CLI
+
 ```bash
 # install dependencies
 $ npm install

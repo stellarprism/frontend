@@ -1,0 +1,8 @@
+version: '3.1'
+
+services:
+    stellarprism-frontend:
+        build: .
+        restart: unless-stopped
+        ports:
+          - "9230:3000"
